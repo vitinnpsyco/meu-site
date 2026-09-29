@@ -7,7 +7,7 @@
 
 <meta
     name="viewport"
-    content="width=device-width, initial-scale=1.0"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
 >
 
 <meta
@@ -117,6 +117,7 @@ body.light {
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 90px;
 }
 
 body {
@@ -136,6 +137,9 @@ body {
     transition:
         background-color .7s ease,
         color .7s ease;
+
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
 
 }
 
@@ -160,7 +164,7 @@ button {
 
 
 /* =========================================================
-   FUNDO
+   FUNDO ANIMADO
 ========================================================= */
 
 .background-orb {
@@ -240,85 +244,6 @@ button {
 
 
 /* =========================================================
-   CURSOR PERSONALIZADO
-========================================================= */
-
-.cursor-dot {
-
-    position: fixed;
-
-    width: 7px;
-    height: 7px;
-
-    border-radius: 50%;
-
-    background: var(--green);
-
-    box-shadow:
-        0 0 18px var(--green);
-
-    pointer-events: none;
-
-    z-index: 9999;
-
-    transform:
-        translate(-50%,-50%);
-
-}
-
-.cursor-ring {
-
-    position: fixed;
-
-    width: 35px;
-    height: 35px;
-
-    border-radius: 50%;
-
-    border:
-        1px solid
-        rgba(57,220,145,.65);
-
-    pointer-events: none;
-
-    z-index: 9998;
-
-    transform:
-        translate(-50%,-50%);
-
-    transition:
-        width .3s ease,
-        height .3s ease,
-        border-color .3s ease,
-        background .3s ease;
-
-}
-
-.cursor-ring.active {
-
-    width: 60px;
-    height: 60px;
-
-    background:
-        rgba(57,220,145,.07);
-
-    border-color:
-        var(--green);
-
-}
-
-.cursor-ring.text-hover {
-
-    width: 75px;
-    height: 75px;
-
-    background:
-        rgba(57,220,145,.035);
-
-}
-
-
-/* =========================================================
    CONTAINER
 ========================================================= */
 
@@ -344,7 +269,10 @@ button {
 
     width: 100%;
 
-    padding: 23px 0;
+    padding:
+        max(18px, env(safe-area-inset-top))
+        0
+        18px;
 
     z-index: 1000;
 
@@ -353,11 +281,6 @@ button {
         background .5s ease;
 
 }
-
-
-/*
-    LINHA QUE SEPARA O MENU
-*/
 
 .nav::after {
 
@@ -388,12 +311,16 @@ button {
 
 .nav.scrolled {
 
-    padding: 13px 0;
+    padding:
+        11px 0;
 
     background:
-        rgba(7,10,9,.80);
+        rgba(7,10,9,.82);
 
     backdrop-filter:
+        blur(22px);
+
+    -webkit-backdrop-filter:
         blur(22px);
 
 }
@@ -401,7 +328,7 @@ button {
 body.light .nav.scrolled {
 
     background:
-        rgba(244,247,245,.84);
+        rgba(244,247,245,.86);
 
 }
 
@@ -413,7 +340,7 @@ body.light .nav.scrolled {
 
     justify-content: space-between;
 
-    gap: 20px;
+    gap: 12px;
 
 }
 
@@ -501,8 +428,10 @@ body.light .nav.scrolled {
 
     position: relative;
 
-    width: 48px;
-    height: 48px;
+    width: 46px;
+    height: 46px;
+
+    min-width: 46px;
 
     border-radius: 50%;
 
@@ -595,9 +524,11 @@ body.light .sun {
 
     gap: 10px;
 
-    padding: 16px 24px;
+    min-height: 52px;
 
-    border-radius: 12px;
+    padding: 15px 24px;
+
+    border-radius: 13px;
 
     border: 0;
 
@@ -613,6 +544,8 @@ body.light .sun {
         transform .35s ease,
         box-shadow .35s ease;
 
+    touch-action: manipulation;
+
 }
 
 .btn::before {
@@ -621,8 +554,8 @@ body.light .sun {
 
     position: absolute;
 
-    left: var(--x);
-    top: var(--y);
+    left: var(--x, 50%);
+    top: var(--y, 50%);
 
     width: 0;
     height: 0;
@@ -709,14 +642,14 @@ body.light .sun {
 
 .hero {
 
-    min-height: 100vh;
+    min-height: 100svh;
 
     display: flex;
 
     align-items: center;
 
     padding:
-        155px 0 90px;
+        150px 0 90px;
 
     position: relative;
 
@@ -871,7 +804,7 @@ body.light .sun {
 
 
 /* =========================================================
-   EFEITO ESPECIAL NAS FRASES
+   EFEITO NOS TEXTOS
 ========================================================= */
 
 .magic-text {
@@ -1076,6 +1009,9 @@ body.light .sun {
         rgba(15,22,19,.82);
 
     backdrop-filter:
+        blur(20px);
+
+    -webkit-backdrop-filter:
         blur(20px);
 
     box-shadow:
@@ -1327,7 +1263,7 @@ section {
 
 
 /* =========================================================
-   ANIMAÇÕES DE ENTRADA
+   REVEAL
 ========================================================= */
 
 .reveal {
@@ -1638,8 +1574,7 @@ section {
 .info-card:hover {
 
     transform:
-        translateY(-12px)
-        rotateX(2deg);
+        translateY(-12px);
 
     border-color:
         rgba(57,220,145,.25);
@@ -1881,7 +1816,9 @@ section {
 
 .value {
 
-    padding: 18px;
+    min-height: 56px;
+
+    padding: 16px;
 
     border:
         1px solid var(--border);
@@ -1900,6 +1837,8 @@ section {
     transition:
         transform .3s ease,
         background .3s ease;
+
+    touch-action: manipulation;
 
 }
 
@@ -1929,6 +1868,8 @@ section {
     width: 100%;
 
     margin-top: 13px;
+
+    min-height: 55px;
 
     padding: 17px;
 
@@ -2096,6 +2037,9 @@ section {
     gap:
         11px;
 
+    min-height:
+        54px;
+
     padding:
         16px 25px;
 
@@ -2108,6 +2052,9 @@ section {
     transition:
         transform .35s ease,
         box-shadow .35s ease;
+
+    touch-action:
+        manipulation;
 
 }
 
@@ -2135,8 +2082,8 @@ section {
 
     position: fixed;
 
-    right: 22px;
-    bottom: 22px;
+    right: max(18px, env(safe-area-inset-right));
+    bottom: max(18px, env(safe-area-inset-bottom));
 
     width: 59px;
     height: 59px;
@@ -2270,10 +2217,17 @@ footer {
 
 
 /* =========================================================
-   MOBILE
+   TABLET / CELULAR
 ========================================================= */
 
 @media(max-width:850px) {
+
+    .nav {
+        padding-top:
+            max(14px, env(safe-area-inset-top));
+
+        padding-bottom: 14px;
+    }
 
     .menu-link,
     .nav-btn {
@@ -2281,125 +2235,399 @@ footer {
     }
 
     .hero {
-        padding-top: 130px;
+
+        min-height: auto;
+
+        padding:
+            125px 0 75px;
+
     }
 
     .hero-grid {
+
         grid-template-columns: 1fr;
-        gap: 30px;
+
+        gap: 35px;
+
+    }
+
+    .hero h1 {
+
+        font-size:
+            clamp(47px, 13vw, 70px);
+
+    }
+
+    .hero-description {
+
+        font-size: 15px;
+
+        line-height: 1.75;
+
+    }
+
+    .hero-buttons {
+
+        display: grid;
+
+        grid-template-columns: 1fr;
+
+        width: 100%;
+
+    }
+
+    .hero-buttons .btn {
+
+        width: 100%;
+
     }
 
     .hero-visual {
+
         height: 470px;
+
+        width: 100%;
+
     }
 
     .hero-image {
+
         width: 90%;
+
+        height: 88%;
+
     }
 
     .floating-card {
+
         left: 0;
+
+        bottom: 4%;
+
     }
 
     .stats-grid {
+
         grid-template-columns: 1fr;
+
     }
 
     .stat {
+
         border-right: 0;
+
         border-bottom:
             1px solid var(--border);
+
+        padding:
+            30px 20px;
+
     }
 
     .stat:last-child {
+
         border-bottom: 0;
+
     }
 
     .about-grid {
+
         grid-template-columns: 1fr;
-        gap: 50px;
+
+        gap: 55px;
+
     }
 
     .about-images {
+
         height: 460px;
+
     }
 
     .cards {
+
         grid-template-columns: 1fr;
+
+        gap: 15px;
+
+        margin-top: 40px;
+
+    }
+
+    .info-card {
+
+        min-height: auto;
+
+        padding: 28px;
+
+    }
+
+    .gallery {
+
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+
+        margin-top: 40px;
+
     }
 
     .gallery-item:nth-child(n) {
-        grid-column: span 12;
+
+        grid-column: auto;
+
+        height: 260px;
+
     }
 
     .donation-box {
-        padding: 35px 22px;
+
+        padding:
+            35px 22px;
+
     }
 
-    /*
-       Cursor personalizado é desativado
-       no celular porque não existe mouse.
-    */
+    .donation-box h2 {
 
-    .cursor-dot,
-    .cursor-ring {
-        display: none;
+        font-size: 38px;
+
+    }
+
+    .values {
+
+        grid-template-columns:
+            repeat(2,1fr);
+
+    }
+
+    section {
+
+        padding:
+            100px 0;
+
+    }
+
+    .section-title {
+
+        font-size:
+            clamp(40px, 11vw, 55px);
+
     }
 
 }
 
 
 /* =========================================================
-   MOBILE PEQUENO
+   CELULARES PEQUENOS
 ========================================================= */
 
 @media(max-width:500px) {
 
     .container {
+
         width: 90%;
+
+    }
+
+    .logo {
+
+        font-size: 18px;
+
+    }
+
+    .theme-toggle {
+
+        width: 43px;
+        height: 43px;
+
+        min-width: 43px;
+
+    }
+
+    .hero {
+
+        padding:
+            115px 0 65px;
+
     }
 
     .hero h1 {
+
         font-size: 47px;
+
+        letter-spacing:
+            -1.5px;
+
     }
 
     .hero-description {
-        font-size: 15px;
+
+        font-size:
+            14px;
+
+    }
+
+    .badge {
+
+        font-size:
+            11px;
+
     }
 
     .hero-visual {
+
         height: 390px;
+
+    }
+
+    .hero-image {
+
+        width: 94%;
+
+        height: 88%;
+
+        border-radius:
+            23px;
+
     }
 
     .floating-card {
+
         width: 205px;
+
+        padding:
+            17px;
+
+    }
+
+    .floating-number {
+
+        font-size:
+            24px;
+
+    }
+
+    .floating-text {
+
+        font-size:
+            11px;
+
     }
 
     section {
+
         padding:
-            95px 0;
+            90px 0;
+
     }
 
     .section-title {
-        font-size: 42px;
+
+        font-size:
+            42px;
+
+    }
+
+    .section-text {
+
+        font-size:
+            14px;
+
+    }
+
+    .about-images {
+
+        height: 390px;
+
+    }
+
+    .about-photo-one {
+
+        width: 78%;
+        height: 78%;
+
+    }
+
+    .about-photo-two {
+
+        width: 55%;
+        height: 50%;
+
+        border-width:
+            5px;
+
     }
 
     .values {
+
         grid-template-columns:
             1fr 1fr;
+
+        gap: 9px;
+
+    }
+
+    .value {
+
+        min-height:
+            53px;
+
+        padding:
+            13px 8px;
+
     }
 
     .donation-box h2 {
-        font-size: 37px;
+
+        font-size:
+            35px;
+
     }
 
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
+    .donation-box > p {
+
+        font-size:
+            13px;
+
+    }
+
+    .progress-info {
+
+        flex-direction:
+            column;
+
+        gap: 5px;
+
+    }
+
+    .whatsapp-button {
+
+        width: 100%;
+
+    }
+
+    .whatsapp-float {
+
+        width: 56px;
+        height: 56px;
+
     }
 
     .scroll-indicator {
-        display: none;
+
+        display:
+            none;
+
+    }
+
+    .footer-content {
+
+        flex-direction:
+            column;
+
+        text-align:
+            center;
+
     }
 
 }
@@ -2431,6 +2659,44 @@ footer {
 
 }
 
+
+/* =========================================================
+   DISPOSITIVOS SEM HOVER
+========================================================= */
+
+@media(hover:none) {
+
+    .btn:hover,
+    .info-card:hover,
+    .hero-image:hover img,
+    .gallery-item:hover img,
+    .whatsapp-button:hover,
+    .whatsapp-float:hover {
+
+        transform:
+            none;
+
+    }
+
+    .magic-text:hover {
+
+        color:
+            inherit;
+
+        text-shadow:
+            none;
+
+    }
+
+    .magic-text:hover::before {
+
+        transform:
+            scaleX(0);
+
+    }
+
+}
+
 </style>
 
 </head>
@@ -2439,23 +2705,18 @@ footer {
 <body>
 
 
-<!-- FUNDO -->
-
-<div class="background-orb orb-one"></div>
-
-<div class="background-orb orb-two"></div>
-
-
-<!-- CURSOR -->
+<!-- =====================================================
+     FUNDO
+===================================================== -->
 
 <div
-    class="cursor-dot"
-    id="cursorDot"
+    class="background-orb orb-one"
+    aria-hidden="true"
 ></div>
 
 <div
-    class="cursor-ring"
-    id="cursorRing"
+    class="background-orb orb-two"
+    aria-hidden="true"
 ></div>
 
 
@@ -2466,6 +2727,7 @@ footer {
 <nav
     class="nav"
     id="nav"
+    aria-label="Navegação principal"
 >
 
 <div class="container nav-content">
@@ -2473,7 +2735,7 @@ footer {
 
 <a
     href="#inicio"
-    class="logo magic-text"
+    class="logo"
 >
     Juan <span>Gostozão</span>
 </a>
@@ -2525,15 +2787,23 @@ footer {
 <button
     class="theme-toggle"
     id="themeToggle"
-    aria-label="Alternar tema"
+    type="button"
+    aria-label="Alternar entre tema escuro e claro"
+    aria-pressed="false"
 >
 
-<span class="theme-icon moon">
-☾
+<span
+    class="theme-icon moon"
+    aria-hidden="true"
+>
+    ☾
 </span>
 
-<span class="theme-icon sun">
-☀
+<span
+    class="theme-icon sun"
+    aria-hidden="true"
+>
+    ☀
 </span>
 
 </button>
@@ -2576,7 +2846,10 @@ Quero ajudar
 
 <div class="badge">
 
-<span class="badge-dot"></span>
+<span
+    class="badge-dot"
+    aria-hidden="true"
+></span>
 
 Campanha em andamento
 
@@ -2629,6 +2902,7 @@ Quero fazer parte
     fill="none"
     stroke="currentColor"
     stroke-width="2"
+    aria-hidden="true"
 >
 
 <path d="M5 12h14"/>
@@ -2662,7 +2936,10 @@ Conhecer a causa
 >
 
 
-<div class="hero-glow"></div>
+<div
+    class="hero-glow"
+    aria-hidden="true"
+></div>
 
 
 <div class="hero-image">
@@ -2670,6 +2947,7 @@ Conhecer a causa
 <img
     src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=1200&q=85"
     alt="Pessoas participando de uma ação social"
+    fetchpriority="high"
 >
 
 </div>
@@ -2700,7 +2978,10 @@ a manter a iniciativa avançando.
 </div>
 
 
-<div class="scroll-indicator">
+<div
+    class="scroll-indicator"
+    aria-hidden="true"
+>
 
 <span>Scroll</span>
 
@@ -2760,7 +3041,6 @@ valor apresentado como arrecadado
 <div class="stat-label">
 percentual apresentado da meta
 </div>
-
 
 </div>
 
@@ -2847,7 +3127,8 @@ o alcance das ações realizadas.
 
 <div class="check">
 
-<div class="check-icon">
+<div class="check-icon"
+     aria-hidden="true">
 ✓
 </div>
 
@@ -2869,7 +3150,8 @@ definidas para a campanha.
 
 <div class="check">
 
-<div class="check-icon">
+<div class="check-icon"
+     aria-hidden="true">
 ✓
 </div>
 
@@ -2891,7 +3173,8 @@ apresentadas de forma clara aos participantes.
 
 <div class="check">
 
-<div class="check-icon">
+<div class="check-icon"
+     aria-hidden="true">
 ✓
 </div>
 
@@ -3163,6 +3446,7 @@ as informações necessárias.
 
 <button
     class="value"
+    type="button"
     data-value="10"
 >
 R$ 10
@@ -3171,6 +3455,7 @@ R$ 10
 
 <button
     class="value"
+    type="button"
     data-value="25"
 >
 R$ 25
@@ -3179,6 +3464,7 @@ R$ 25
 
 <button
     class="value"
+    type="button"
     data-value="50"
 >
 R$ 50
@@ -3187,6 +3473,7 @@ R$ 50
 
 <button
     class="value"
+    type="button"
     data-value="100"
 >
 R$ 100
@@ -3195,6 +3482,7 @@ R$ 100
 
 <button
     class="value"
+    type="button"
     data-value="200"
 >
 R$ 200
@@ -3203,6 +3491,7 @@ R$ 200
 
 <button
     class="value"
+    type="button"
     data-value="500"
 >
 R$ 500
@@ -3218,15 +3507,18 @@ R$ 500
     type="number"
     min="1"
     max="100000"
+    step="0.01"
     inputmode="decimal"
     placeholder="Outro valor — R$"
     autocomplete="off"
+    aria-label="Digite outro valor para contribuição"
 >
 
 
 <button
     class="btn primary donate"
     id="donateButton"
+    type="button"
 >
 
 <span>
@@ -3240,6 +3532,7 @@ Continuar pelo WhatsApp
     fill="none"
     stroke="currentColor"
     stroke-width="2"
+    aria-hidden="true"
 >
 
 <path d="M5 12h14"/>
@@ -3330,7 +3623,6 @@ diretamente pelo WhatsApp.
     rel="noopener noreferrer"
 >
 
-
 <svg
     viewBox="0 0 24 24"
     aria-hidden="true"
@@ -3387,7 +3679,10 @@ Juan Gostozão
     aria-label="Abrir WhatsApp"
 >
 
-<span class="whatsapp-ring"></span>
+<span
+    class="whatsapp-ring"
+    aria-hidden="true"
+></span>
 
 
 <svg
@@ -3395,7 +3690,7 @@ Juan Gostozão
     aria-hidden="true"
 >
 
-<path d="M20.5 3.5A11.9 11.9 0 0 0 12.03 0C5.45 0 .1 5.35.1 11.93c0 2.1.55 4.15 1.6 5.95L0 24l6.3-1.65a11.9 11.9 0 0 0 5.72 1.46h.01c6.57 0 11.92-5.35 11.92-11.93 0-3.18-1.24-6.17-3.45-8.38ZM12.04 21.8h-.01a9.9 9.9 0 0 1-5.05-1.38l-.36-.21-3.74.98 1-3.64-.23-.38a9.9 9.9 0 1 1 8.39 4.63Zm5.43-7.42c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.64-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.05 1.03-1.05 2.5s1.07 2.9 1.22 3.1c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.5 1.7.64.71.23 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/>
+<path d="M20.5 3.5A11.9 11.9 0 0 0 12.03 0C5.45 0 .1 5.35.1 11.93c0 2.1.55 4.15 1.6 5.95L0 24l6.3-1.65a11.9 11.9 0 0 0 5.72 1.46h.01c6.57 0 11.92-5.35 11.92-11.93 0-3.18-1.24-6.17-3.45-8.38ZM12.04 21.8h-.01a9.9 9.9 0 0 1-5.05-1.38l-.36-.21-3.74.98 1-3.64-.23-.38a9.9 9.9 0 1 1 8.39 4.63Zm5.43-7.42c-.3-.15-1.77-.87-2.05-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.79-1.47-1.76-1.64-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.8.37-.27.3-1.05 1.03-1.05 2.5s1.07 2.9 1.22 3.1c.15.2 2.1 3.2 5.08 4.49.71.31 1.27.5 1.7.64.71.23 1.77.2 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.12-.27-.2-.57-.35Z"/>
 
 </svg>
 
@@ -3405,20 +3700,51 @@ Juan Gostozão
 <script>
 
 /* =========================================================
-   TEMA
+   REFERÊNCIAS
 ========================================================= */
 
 const themeToggle =
     document.getElementById("themeToggle");
 
-const savedTheme =
-    localStorage.getItem("theme");
+const nav =
+    document.getElementById("nav");
 
-if (savedTheme === "light") {
+const customValue =
+    document.getElementById("customValue");
 
-    document.body.classList.add("light");
+const donateButton =
+    document.getElementById("donateButton");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+
+/* =========================================================
+   TEMA
+========================================================= */
+
+try {
+
+    const savedTheme =
+        localStorage.getItem("theme");
+
+    if (savedTheme === "light") {
+
+        document.body.classList.add("light");
+
+        themeToggle.setAttribute(
+            "aria-pressed",
+            "true"
+        );
+
+    }
+
+} catch (error) {
+
+    /* localStorage pode estar bloqueado */
 
 }
+
 
 themeToggle.addEventListener(
     "click",
@@ -3426,15 +3752,28 @@ themeToggle.addEventListener(
 
         document.body.classList.toggle("light");
 
-        const theme =
-            document.body.classList.contains("light")
-            ? "light"
-            : "dark";
+        const isLight =
+            document.body.classList.contains("light");
 
-        localStorage.setItem(
-            "theme",
-            theme
+        themeToggle.setAttribute(
+            "aria-pressed",
+            String(isLight)
         );
+
+        try {
+
+            localStorage.setItem(
+                "theme",
+                isLight
+                    ? "light"
+                    : "dark"
+            );
+
+        } catch (error) {
+
+            /* continua funcionando mesmo sem localStorage */
+
+        }
 
     }
 );
@@ -3443,9 +3782,6 @@ themeToggle.addEventListener(
 /* =========================================================
    NAV AO ROLAR
 ========================================================= */
-
-const nav =
-    document.getElementById("nav");
 
 function updateNav() {
 
@@ -3461,6 +3797,8 @@ function updateNav() {
 
 }
 
+updateNav();
+
 window.addEventListener(
     "scroll",
     updateNav,
@@ -3475,70 +3813,92 @@ window.addEventListener(
 const revealElements =
     document.querySelectorAll(".reveal");
 
-const revealObserver =
-    new IntersectionObserver(
-
-        (entries) => {
-
-            entries.forEach(
-                (entry) => {
-
-                    if (
-                        entry.isIntersecting
-                    ) {
-
-                        requestAnimationFrame(
-                            () => {
-
-                                entry.target
-                                    .classList
-                                    .add("show");
-
-                            }
-                        );
-
-                    } else {
-
-                        /*
-                           IMPORTANTE:
-
-                           Quando o elemento sai da tela,
-                           removemos "show".
-
-                           Portanto, quando o usuário
-                           voltar para ele, a animação
-                           acontecerá novamente.
-                        */
-
-                        entry.target
-                            .classList
-                            .remove("show");
-
-                    }
-
-                }
-            );
-
-        },
-
-        {
-            threshold: .15,
-            rootMargin:
-                "0px 0px -80px 0px"
-        }
-
+const prefersReducedMotion =
+    window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
     );
 
 
-revealElements.forEach(
-    (element) => {
+if (
+    prefersReducedMotion.matches
+) {
 
-        revealObserver.observe(
-            element
+    revealElements.forEach(
+        (element) => {
+
+            element.classList.add("show");
+
+        }
+    );
+
+} else {
+
+    const revealObserver =
+        new IntersectionObserver(
+
+            (entries) => {
+
+                entries.forEach(
+                    (entry) => {
+
+                        if (
+                            entry.isIntersecting
+                        ) {
+
+                            requestAnimationFrame(
+                                () => {
+
+                                    entry.target
+                                        .classList
+                                        .add("show");
+
+                                }
+                            );
+
+                        } else {
+
+                            /*
+                               Remove a animação quando
+                               o elemento sai da tela.
+
+                               Assim, quando o usuário
+                               voltar para cima, a animação
+                               acontece novamente.
+                            */
+
+                            entry.target
+                                .classList
+                                .remove("show");
+
+                        }
+
+                    }
+                );
+
+            },
+
+            {
+                threshold: .12,
+
+                rootMargin:
+                    "0px 0px -60px 0px"
+
+            }
+
         );
 
-    }
-);
+
+    revealElements.forEach(
+        (element) => {
+
+            revealObserver.observe(
+                element
+            );
+
+        }
+    );
+
+}
 
 
 /* =========================================================
@@ -3550,121 +3910,139 @@ const counter =
 
 let counterStarted = false;
 
-const counterObserver =
-    new IntersectionObserver(
 
-        (entries) => {
+if (counter) {
 
-            if (
-                entries[0].isIntersecting
-                &&
-                !counterStarted
-            ) {
+    const counterObserver =
+        new IntersectionObserver(
 
-                counterStarted = true;
+            (entries) => {
 
-                const target =
-                    Number(
-                        counter.dataset.target
-                    );
+                if (
+                    entries[0].isIntersecting
+                    &&
+                    !counterStarted
+                ) {
 
-                const duration = 1800;
+                    counterStarted = true;
 
-                const start =
-                    performance.now();
-
-
-                function animateCounter(now) {
-
-                    const progress =
-                        Math.min(
-                            (now - start) /
-                            duration,
-                            1
+                    const target =
+                        Number(
+                            counter.dataset.target
                         );
 
-                    const eased =
-                        1 -
-                        Math.pow(
-                            1 - progress,
-                            3
-                        );
+                    const duration =
+                        1800;
 
-                    counter.textContent =
-                        Math.floor(
-                            target * eased
-                        );
+                    const start =
+                        performance.now();
 
 
-                    if (progress < 1) {
+                    function animateCounter(now) {
 
-                        requestAnimationFrame(
-                            animateCounter
-                        );
+                        const progress =
+                            Math.min(
+                                (now - start) /
+                                duration,
+                                1
+                            );
+
+                        const eased =
+                            1 -
+                            Math.pow(
+                                1 - progress,
+                                3
+                            );
+
+                        counter.textContent =
+                            Math.floor(
+                                target * eased
+                            );
+
+
+                        if (
+                            progress < 1
+                        ) {
+
+                            requestAnimationFrame(
+                                animateCounter
+                            );
+
+                        }
 
                     }
 
+
+                    requestAnimationFrame(
+                        animateCounter
+                    );
+
                 }
 
+            },
 
-                requestAnimationFrame(
-                    animateCounter
-                );
-
+            {
+                threshold: .6
             }
 
-        },
-
-        {
-            threshold: .6
-        }
-
-    );
+        );
 
 
-counterObserver.observe(counter);
+    counterObserver.observe(counter);
+
+}
 
 
 /* =========================================================
    BARRA DE PROGRESSO
 ========================================================= */
 
-const progressBar =
-    document.getElementById(
-        "progressBar"
-    );
+if (progressBar) {
 
-const progressObserver =
-    new IntersectionObserver(
+    if (
+        prefersReducedMotion.matches
+    ) {
 
-        (entries) => {
+        progressBar.style.width =
+            "78%";
 
-            if (
-                entries[0].isIntersecting
-            ) {
+    } else {
 
-                progressBar.style.width =
-                    "78%";
+        const progressObserver =
+            new IntersectionObserver(
 
-            } else {
+                (entries) => {
 
-                progressBar.style.width =
-                    "0%";
+                    if (
+                        entries[0].isIntersecting
+                    ) {
 
-            }
+                        progressBar.style.width =
+                            "78%";
 
-        },
+                    } else {
 
-        {
-            threshold: .4
-        }
+                        progressBar.style.width =
+                            "0%";
 
-    );
+                    }
+
+                },
+
+                {
+                    threshold: .4
+                }
+
+            );
 
 
-progressObserver.observe(
-    progressBar
-);
+        progressObserver.observe(
+            progressBar
+        );
+
+    }
+
+}
 
 
 /* =========================================================
@@ -3674,11 +4052,6 @@ progressObserver.observe(
 const valueButtons =
     document.querySelectorAll(
         ".value"
-    );
-
-const customValue =
-    document.getElementById(
-        "customValue"
     );
 
 let selectedValue = 0;
@@ -3691,13 +4064,29 @@ valueButtons.forEach(
             "click",
             () => {
 
-                selectedValue =
+                const value =
                     Number(
                         button.dataset.value
                     );
 
+
+                if (
+                    !Number.isFinite(value)
+                    ||
+                    value <= 0
+                ) {
+
+                    return;
+
+                }
+
+
+                selectedValue =
+                    value;
+
                 customValue.value =
-                    selectedValue;
+                    String(value);
+
 
                 valueButtons.forEach(
                     (item) => {
@@ -3707,6 +4096,7 @@ valueButtons.forEach(
 
                     }
                 );
+
 
                 button.classList
                     .add("active");
@@ -3719,27 +4109,47 @@ valueButtons.forEach(
 
 
 /* =========================================================
-   WHATSAPP DA DOAÇÃO
+   LIMPA SELEÇÃO AO DIGITAR OUTRO VALOR
 ========================================================= */
 
-const donateButton =
-    document.getElementById(
-        "donateButton"
-    );
+customValue.addEventListener(
+    "input",
+    () => {
 
+        selectedValue = 0;
+
+        valueButtons.forEach(
+            (button) => {
+
+                button.classList
+                    .remove("active");
+
+            }
+        );
+
+    }
+);
+
+
+/* =========================================================
+   WHATSAPP DA DOAÇÃO
+========================================================= */
 
 donateButton.addEventListener(
     "click",
     () => {
 
+        const rawValue =
+            customValue.value.trim();
+
+
         const value =
-            Number(
-                customValue.value ||
-                selectedValue
-            );
+            Number(rawValue);
 
 
         if (
+            rawValue === ""
+            ||
             !Number.isFinite(value)
             ||
             value <= 0
@@ -3747,8 +4157,10 @@ donateButton.addEventListener(
             value > 100000
         ) {
 
+            customValue.focus();
+
             alert(
-                "Digite um valor válido para continuar."
+                "Digite um valor entre R$ 1 e R$ 100.000."
             );
 
             return;
@@ -3778,6 +4190,12 @@ donateButton.addEventListener(
             );
 
 
+        /*
+           O número e a mensagem são definidos
+           pelo próprio site. Nenhum dado sensível
+           é armazenado no navegador.
+        */
+
         window.open(
             url,
             "_blank",
@@ -3790,55 +4208,8 @@ donateButton.addEventListener(
 
 /* =========================================================
    EFEITO DE LUZ DOS BOTÕES
+   Somente quando existe ponteiro fino.
 ========================================================= */
-
-document
-    .querySelectorAll(".btn")
-    .forEach(
-        (button) => {
-
-            button.addEventListener(
-                "pointermove",
-                (event) => {
-
-                    const rect =
-                        button.getBoundingClientRect();
-
-
-                    button.style.setProperty(
-                        "--x",
-                        (event.clientX - rect.left)
-                        + "px"
-                    );
-
-
-                    button.style.setProperty(
-                        "--y",
-                        (event.clientY - rect.top)
-                        + "px"
-                    );
-
-                }
-            );
-
-        }
-    );
-
-
-/* =========================================================
-   CURSOR
-========================================================= */
-
-const cursorDot =
-    document.getElementById(
-        "cursorDot"
-    );
-
-const cursorRing =
-    document.getElementById(
-        "cursorRing"
-    );
-
 
 const finePointer =
     window.matchMedia(
@@ -3848,136 +4219,48 @@ const finePointer =
 
 if (finePointer.matches) {
 
-    let mouseX = 0;
-    let mouseY = 0;
+    document
+        .querySelectorAll(".btn")
+        .forEach(
+            (button) => {
 
-    let ringX = 0;
-    let ringY = 0;
+                button.addEventListener(
+                    "pointermove",
+                    (event) => {
 
-
-    document.addEventListener(
-        "pointermove",
-        (event) => {
-
-            mouseX =
-                event.clientX;
-
-            mouseY =
-                event.clientY;
+                        const rect =
+                            button.getBoundingClientRect();
 
 
-            cursorDot.style.left =
-                mouseX + "px";
-
-            cursorDot.style.top =
-                mouseY + "px";
-
-        }
-    );
-
-
-    function animateCursor() {
-
-        ringX +=
-            (mouseX - ringX) * .16;
-
-        ringY +=
-            (mouseY - ringY) * .16;
+                        button.style.setProperty(
+                            "--x",
+                            (
+                                event.clientX -
+                                rect.left
+                            ) + "px"
+                        );
 
 
-        cursorRing.style.left =
-            ringX + "px";
+                        button.style.setProperty(
+                            "--y",
+                            (
+                                event.clientY -
+                                rect.top
+                            ) + "px"
+                        );
 
-        cursorRing.style.top =
-            ringY + "px";
+                    }
+                );
 
-
-        requestAnimationFrame(
-            animateCursor
+            }
         );
-
-    }
-
-
-    animateCursor();
-
-
-    const interactiveElements =
-        document.querySelectorAll(
-            "a, button, input, .magic-text"
-        );
-
-
-    interactiveElements.forEach(
-        (element) => {
-
-            element.addEventListener(
-                "mouseenter",
-                () => {
-
-                    cursorRing
-                        .classList
-                        .add("active");
-
-                }
-            );
-
-
-            element.addEventListener(
-                "mouseleave",
-                () => {
-
-                    cursorRing
-                        .classList
-                        .remove("active");
-
-                }
-            );
-
-        }
-    );
-
-
-    const textElements =
-        document.querySelectorAll(
-            ".magic-text"
-        );
-
-
-    textElements.forEach(
-        (element) => {
-
-            element.addEventListener(
-                "mouseenter",
-                () => {
-
-                    cursorRing
-                        .classList
-                        .add("text-hover");
-
-                }
-            );
-
-
-            element.addEventListener(
-                "mouseleave",
-                () => {
-
-                    cursorRing
-                        .classList
-                        .remove("text-hover");
-
-                }
-            );
-
-        }
-    );
 
 }
 
 
 /* =========================================================
    PARALLAX DO HERO
+   Somente em telas maiores.
 ========================================================= */
 
 const heroVisual =
@@ -3992,6 +4275,8 @@ function updateParallax() {
 
     if (
         window.innerWidth <= 850
+        ||
+        prefersReducedMotion.matches
     ) {
 
         heroVisual.style.transform =
@@ -4044,9 +4329,14 @@ window.addEventListener(
 
 /* =========================================================
    TILT DA IMAGEM
+   Apenas no PC.
 ========================================================= */
 
-if (finePointer.matches) {
+if (
+    finePointer.matches
+    &&
+    !prefersReducedMotion.matches
+) {
 
     document
         .querySelectorAll(".hero-image")
@@ -4111,18 +4401,25 @@ if (finePointer.matches) {
 
 
 /* =========================================================
-   PROTEÇÕES BÁSICAS DO FRONT-END
+   PROTEÇÕES BÁSICAS
 ========================================================= */
 
 /*
-    Não utilizamos:
+    Este arquivo não utiliza:
 
     eval()
     Function()
+    document.write()
     innerHTML com dados externos
 
-    Dados vindos de usuários devem ser
-    validados no servidor caso exista backend.
+    Valores digitados pelo visitante são tratados
+    como texto/números e não como código HTML.
+
+    IMPORTANTE:
+
+    Segurança real de pagamentos, banco de dados,
+    autenticação e informações privadas deve ser
+    feita no servidor/backend.
 */
 
 
@@ -4130,13 +4427,9 @@ if (finePointer.matches) {
    REDUÇÃO DE MOVIMENTO
 ========================================================= */
 
-const reducedMotion =
-    window.matchMedia(
-        "(prefers-reduced-motion: reduce)"
-    );
-
-
-if (reducedMotion.matches) {
+if (
+    prefersReducedMotion.matches
+) {
 
     document.documentElement.style
         .scrollBehavior =
